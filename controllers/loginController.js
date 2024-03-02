@@ -9,14 +9,14 @@ const jwt = require("jsonwebtoken");
 const register = asyncHandler(async (req, res) => {
     const {username, email, password} = req.body;
     if(!username || !email || !password){
-        res.status(400);
-        throw new Error("Please fill all the fields");
+        res.status(400).json({msg: "Please fill all the fields"});
+        //throw new Error("Please fill all the fields");
     }
     //already a user check
     const userExists = await User.findOne({email});
     if(userExists){
-        res.status(400);
-        throw new Error("User already exists");
+        res.status(400).json({msg: "User already exists"});
+        //throw new Error("User already exists");
     }
 
     //hash password
@@ -29,14 +29,14 @@ const register = asyncHandler(async (req, res) => {
     });
 
     if(newuser){
-        res.status(201).json({
+        res.status(200).json({
             _id: newuser._id,
             username: newuser.username,
             email: newuser.email
         });
     }else{
-        res.status(400);
-        throw new Error("Invalid user data");
+        res.status(400).json({msg: "Invalid user data"});
+        //throw new Error("Invalid user data");
     }
 });
 
@@ -48,13 +48,13 @@ const login = asyncHandler(async (req, res) => {
     const {email, password} = req.body;
     if(!email || !password){
         res.status(400);
-        throw new Error("Please fill all the fields");
+        //throw new Error("Please fill all the fields");
     }
     //if user exists
     const user = await User.findOne({email});
     if(!user){
-        res.status(400);
-        throw new Error("Invalid credentials");
+        res.status(400).json({msg: "No User Found"});
+        //throw new Error("user dont exists with this email");
     }
 
     if(await bcrypt.compare(password, user.password)){
@@ -75,8 +75,8 @@ const login = asyncHandler(async (req, res) => {
         });
 
     }else{
-        res.status(401);
-        throw new Error("Invalid credentials");
+        res.status(401).json({msg: "Invalid Credentials"});
+        //throw new Error("Invalid credentials");
     }
 
 });
