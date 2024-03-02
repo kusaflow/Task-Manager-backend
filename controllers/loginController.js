@@ -71,7 +71,7 @@ const login = asyncHandler(async (req, res) => {
             {expiresIn: "10m"}
         );
         res.status(200).json({
-            "k_t" : token
+            "token" : token
         });
 
     }else{
