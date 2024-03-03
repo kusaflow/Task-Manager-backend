@@ -29,17 +29,18 @@ const getsingletask = asyncHandler(async (req, res) => {
 //access private
 const addtask = asyncHandler(async (req, res) => {
     //add task
-    const {task} = req.body;
+    const {task, tag} = req.body;
 
     //validate
-    if(!task){
+    if(!task || !tag){
         res.status(400);
         throw new Error('Please add a task');
     }
 
     const _task = await Task.create({
         user_id: req.user.id,
-        task
+        task,
+        tag
     });
 
     
@@ -52,8 +53,8 @@ const addtask = asyncHandler(async (req, res) => {
 //routes PUT /api/task/:id
 //access private
 const updatetask = asyncHandler(async (req, res) => {
-    const {task, completed, status, important} = req.body;
-    if(!task || !important || !status || !completed){
+    const {task, completed, status, important, tag} = req.body;
+    if(!task || !important || !status || !completed || !tag){
         res.status(400);
         throw new Error("Please fill all the fields");
     }
@@ -69,7 +70,8 @@ const updatetask = asyncHandler(async (req, res) => {
         task,
         completed,
         status,
-        important
+        important,
+        tag
     }, {new:true});
 
 

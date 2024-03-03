@@ -11,6 +11,11 @@ const taskSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please add a task']
     },
+    tag:{
+        type: String,
+        enum: ['Work', 'Personal', 'Shopping', 'Others'],
+        default: 'Others'
+    },
     completed: {
         type: Boolean,
         default: false

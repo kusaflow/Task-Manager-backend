@@ -68,7 +68,7 @@ const login = asyncHandler(async (req, res) => {
                 } 
             }, 
             process.env.JWT_SECRET, 
-            {expiresIn: "10m"}
+            {expiresIn: "1d"}
         );
         res.status(200).json({
             "token" : token
