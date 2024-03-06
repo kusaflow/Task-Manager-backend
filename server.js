@@ -14,6 +14,9 @@ app.use(_errorhandler);
 
 connectDB();
 
+app.get('/', (req, res) => {
+    res.send('Server is running');
+  });
 app.use('/api/task', require('./routes/taskRoute'));
 app.use("/api/users", require("./routes/UserRoutes"));
 
