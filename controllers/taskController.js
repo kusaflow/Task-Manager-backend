@@ -54,16 +54,11 @@ const addtask = asyncHandler(async (req, res) => {
 //access private
 const updatetask = asyncHandler(async (req, res) => {
     const {task, completed, status, important, tag} = req.body;
-    if(!task || !important || !status || !completed || !tag){
-        res.status(400);
-        throw new Error("Please fill all the fields");
-    }
 
     const newTask = await Task.findById(req.params.id);
 
     if(newTask.user_id.toString() !== req.user.id){
-        res.status(401);
-        throw new Error("Not authorized");
+        res.status(401).json({error: "Not authorized"});
     }
 
     const updatedTask = await Task.findByIdAndUpdate(req.params.id, {
